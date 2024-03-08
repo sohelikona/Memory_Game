@@ -25,7 +25,7 @@ main {
   
   .grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 15px;
     width: 100%;
     max-width: 1200px;
@@ -71,6 +71,87 @@ main {
     filter: saturate(0);
     opacity: 0.5;
   }
+
+  .modal {
+    display: none; 
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    background-color: rgba(255, 255, 255, 0.9); 
+    justify-content: center; 
+    align-items: center;
+    border-radius: 15px;
+  }
+  
+  .modal-content {
+    margin-top: 320px;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #444;
+  }
+  
+.modal-img {
+  height: 250px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+  #modal-message {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1.5rem;
+  }
+
+  .win-modal {
+    display: none; 
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    background-color: rgba(255, 255, 255, 0.9); 
+    justify-content: center; 
+    align-items: center;
+    border-radius: 15px;
+  }
+
+  .win-modal-content {
+    margin-top: 320px;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+.sound img {
+  position: fixed;
+  top: 20px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  background-color: transparent;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+}
 
   footer{
     margin-top: 15%;

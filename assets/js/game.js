@@ -2,7 +2,12 @@
 const grid = document.querySelector('.grid');
 const spanPlayer = document.querySelector('.player');
 const timer = document.querySelector('.timer');
-const MAX_MOVES = 15;
+const cardFlipSound = document.getElementById("card-flip");
+const matchSound = document.getElementById("match");
+const winSound = document.getElementById("win");
+const loseSound = document.getElementById("lose")
+
+const MAX_MOVES = 32;
 
 const characters = [
   'burro',
@@ -11,11 +16,14 @@ const characters = [
   'macaco',
   'ovo',
   'passaro',
-  'peixe',
-  'raposa',
+  // 'peixe',
+  // 'raposa',
   'skul',
   'tartaruga',
   'urso',
+  'cat',
+  'fish',
+  'elephant'
 ];
 
 const createElement = (tag, className) => {
@@ -26,35 +34,37 @@ const createElement = (tag, className) => {
 
 let firstCard = '';
 let secondCard = '';
-let movesRemaining = MAX_MOVES; // Track remaining moves
+let movesRemaining = MAX_MOVES; 
 
 const checkEndGame = () => {
-  if (movesRemaining === 0) {
-    clearInterval(this.loop);
-    // Use confirm() for better user experience and potential restart
-    const confirmedRestart = confirm("Do you want to restart🤔???");
-    if (confirmedRestart) {
-      // Reset game state if user confirms
-      movesRemaining = MAX_MOVES;
-      document.querySelector('.moves-remaining').innerHTML = `Movimentos Restantes: ${movesRemaining}`;
-      firstCard = '';
-      secondCard = '';
-      // Remove disabled cards class for restart
-      const disabledCards = document.querySelectorAll('.disabled-card');
-      disabledCards.forEach(card => card.classList.remove('disabled-card'));
-      loadGame();
-      startTimer();
-    }
-    return;
-  }
-
   const disabledCards = document.querySelectorAll('.disabled-card');
 
-  if (disabledCards.length === 20) {
+
+  if (disabledCards.length === characters.length * 2) {
     clearInterval(this.loop);
-    alert(`Parabéns, ${spanPlayer.innerHTML}! Seu tempo foi de: ${timer.innerHTML}`);
+    winSound.play();
+    document.querySelector('.win-modal').style.display = 'block';
+    document.getElementById('modal').style.display = 'none';
+    console.log('Win modal should be displayed.');
+    return;
+  }
+  
+  if (movesRemaining === 0) {
+    clearInterval(this.loop);
+    timer.innerHTML = '00';
+    startTimer();
+    
+    const modalMessage = document.getElementById('modal-message');
+    modalMessage.textContent = "Opps! You're out of moves!";
+    document.getElementById('modal').style.display = 'block';
+    loseSound.play();
+    const restartButton = document.getElementById('restart');
+    restartButton.addEventListener('click', restartGame);
   }
 };
+
+
+
 
 const checkCards = () => {
   const firstCharacter = firstCard.getAttribute('data-character');
@@ -68,6 +78,7 @@ const checkCards = () => {
     secondCard = '';
 
     checkEndGame();
+    matchSound.play();
   } else {
     setTimeout(() => {
       firstCard.classList.remove('reveal-card');
@@ -79,6 +90,19 @@ const checkCards = () => {
   }
 };
 
+const restartGame = () => {
+  movesRemaining = MAX_MOVES;
+  document.querySelector('.moves-remaining').innerHTML = `Movimentos Restantes: ${movesRemaining}`;
+  firstCard = '';
+  secondCard = '';
+  const disabledCards = document.querySelectorAll('.disabled-card');
+  disabledCards.forEach(card => card.classList.remove('disabled-card'));
+  loadGame();
+  clearInterval(this.loop);
+  startTimer();
+  // Hide the modal after restart
+  document.getElementById('modal').style.display = 'none';
+};
 
 
 const revealCard = ({ target }) => {
@@ -89,13 +113,14 @@ const revealCard = ({ target }) => {
   if (firstCard === '') {
     target.parentNode.classList.add('reveal-card');
     firstCard = target.parentNode;
+    cardFlipSound.play();
   } else if (secondCard === '') {
     target.parentNode.classList.add('reveal-card');
     secondCard = target.parentNode;
     movesRemaining--;
     document.querySelector('.moves-remaining').innerHTML = `Moves Remaining: ${movesRemaining}`;
+    cardFlipSound.play();
     if (movesRemaining === 0) {
-      alert("Opps!!!😥You're out of moves!");
       checkEndGame();
     } else {
       checkCards();
@@ -138,16 +163,32 @@ const startTimer = () => {
     timer.innerHTML = currentTime + 1;
   }, 1000);
 };
-
 window.onload = () => {
   spanPlayer.innerHTML = localStorage.getItem('player');
   let movesRemaining = MAX_MOVES;
   startTimer();
   loadGame();
 
-    // Add the element to the UI:
-    const movesRemainingElement = document.createElement('span');
-    movesRemainingElement.classList.add('moves-remaining');
-    movesRemainingElement.innerHTML = `Movimentos Restantes: ${movesRemaining}`;
-    document.querySelector('header').appendChild(movesRemainingElement);
+  // Add the element to the UI:
+  const movesRemainingElement = document.createElement('span');
+  movesRemainingElement.classList.add('moves-remaining');
+  movesRemainingElement.innerHTML = `Movimentos Restantes: ${movesRemaining}`;
+  const restartButton = document.getElementById('restart-modal');
+  const closeButton = document.getElementById('modal-close');
+  const restartWinButton = document.getElementById('restart-win');
+  const winModalCloseButton = document.getElementById('win-modal-close');
+  document.querySelector('header').appendChild(movesRemainingElement);
+  restartButton.addEventListener('click', () => {
+    location.reload();
+  });
+  closeButton.addEventListener('click', () => {
+    document.querySelector('.modal').style.display = 'none';
+  });
+  restartWinButton.addEventListener('click', () => {
+    location.reload();
+  });
+  winModalCloseButton.addEventListener('click', () => {
+
+    document.querySelector('.win-modal').style.display = 'none';
+  });
 }
