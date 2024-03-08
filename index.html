@@ -1,28 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/game.css">
 
-     <!-- importing css links -->
-    <link rel="stylesheet" href="/assets/css/reset.css">
-    <link rel="stylesheet" href="/assets/css/user.css">
-    <title>Document</title>
+  <script defer src="../js/game.js"></script>
+
+  <title>Memory Game</title>
 </head>
+
 <body>
-    <form class="login-form">
-        <div class="title-game">
-            <img src="/assets/images/brain.png" alt="brain icon">
-            <h1>Memory Game</h1>
-        </div>
 
-        <input type="text" placeholder="Type your name" class="name_user">
-        <button type="submit" class="btn-game" disabled>Play
-        </button>
-    </form>
+  <main>
+    <header>
+      <span class="player"></span>
+      <span>Tempo: <span class="timer">00</span></span>
+      <span class="moves-remaining"></span>
+    </header>
 
-    <!-- importing js links -->
-    <script src="/assets/js/user.js"></script>
+    <div class="grid"></div>
+    <audio id="card-flip" src="../sounds/pageturn-102978.mp3"></audio>
+<audio id="match" src="../sounds/short-success-sound-glockenspiel-treasure-video-game-6346.mp3"></audio>
+<audio id="win" src="../sounds/victory-96688.mp3"></audio>
+<audio id="lose" src="../sounds/lose.mp3"></audio>
+
+
+<div id="modal" class="modal">
+  <p id="modal-message">Opps😥 You are out of moves. Do you want to restart the game?</p>
+  <img class="modal-img" src="../images/1000_F_288826442_h4yg0e8CDpAzgjcS3tCWQnNFlrAiQNry-removebg-preview.png" />
+  <div class="modal-content">
+    <button id="restart-modal" class="btn">Restart the Game</button>
+    <button id="modal-close" class="btn">Close</button>
+  </div>
+</div>
+
+<div id="win-modal" class="win-modal modal">
+  <p id="modal-message">Yayeee. You won the game🥳 Do you want to restart the game?</p>
+  <img class="modal-img" src="../images/images-removebg-preview.png" />
+  <div class="win-modal-content">
+    <button id="restart-win" class="btn">Restart the Game</button>
+    <button id="win-modal-close" class="btn">Close</button>
+  </div>
+</div>
+
+
+    <footer>
+      <div class="name">
+        <h3>epicestudar</h3>
+      </div>
+    </footer>
+  </main>
+
 </body>
+
 </html>
